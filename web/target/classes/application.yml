@@ -1,0 +1,54 @@
+server:
+  port: 443
+  http:
+    port: 8080
+  ssl:
+    key-store: classpath:michaelSpica.p12
+    key-alias: michaelSpica
+    key-store-type: PKCS12
+    key-store-password: litianyou
+  servlet:
+    context-path: /${app.name}
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+  compression:
+    enabled: true
+    mime-types: application/json,application/mp3
+    min-response-size: 1024
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    url: jdbc:mariadb://${db.host}:${db.port}/${db.scheme}?serverTimezone=Asia/Shanghai&useTimezone=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true
+    username: ${db.username}
+    password: ${db.password}
+    driver-class-name: org.mariadb.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initialSize: 10
+      minIdle: 10
+      maxActive: 200
+      maxWait: 60000
+      validationQuery: SELECT 1
+
+mw:
+  mybatis:
+    enable: true
+    mapper-locations: classpath:mappers/**/*.xml
+    type-aliases-package: com.lenovo.smartclass.resourcecenter.model
+  temporary:
+    enable: true
+    path: home/tmp/
+  auth:
+    client:
+      enable: true
+      aksk:
+        akParamName: access-key
+        signParamName: sign
+        slatParamName: slat
+        timeStampName: timestamp
+        expireTime: 600

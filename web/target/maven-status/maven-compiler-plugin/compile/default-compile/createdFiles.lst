@@ -1,0 +1,7 @@
+com\lenovo\research\se\aiexchange\web\config\UploadConfig.class
+com\lenovo\research\se\aiexchange\web\controller\AiRequestController.class
+com\lenovo\research\se\aiexchange\web\AiExchangeApplication.class
+com\lenovo\research\se\aiexchange\web\controller\APIExceptionHandler.class
+com\lenovo\research\se\aiexchange\web\controller\EchoController.class
+com\lenovo\research\se\aiexchange\web\config\WebApplicationConfigConfig.class
+com\lenovo\research\se\aiexchange\web\controller\TestController.class

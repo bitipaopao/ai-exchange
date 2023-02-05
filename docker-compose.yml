@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+    svc-knowledge:
+        container_name: ai-exchange
+        build: ./
+        image: "smartedu/ai-exchange:0.0.1"
+        volumes: 
+            - ./log/:/home/logs/
+            - ./tmp/:/home/tmp/
+        ports:
+            - "8080:8080"
+        network_mode: bridge   
+        restart: always
+        environment:
+            JAVA_OPTS: "-Xmx512m -Xms512m"
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "5g"

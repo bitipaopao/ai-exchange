@@ -1,0 +1,13 @@
+com\lenovo\research\se\aiexchange\test\core\JKHttpProxyTest.class
+com\lenovo\research\se\aiexchange\test\core\dao\AiRequestDaoTest.class
+com\lenovo\research\se\aiexchange\test\core\dao\ClientDaoTest.class
+com\lenovo\research\se\aiexchange\test\common\Md5Test.class
+com\lenovo\research\se\aiexchange\test\core\dao\AiServiceDaoTest.class
+com\lenovo\research\se\aiexchange\test\core\AdapterTest.class
+com\lenovo\research\se\aiexchange\test\AmationTest.class
+com\lenovo\research\se\aiexchange\test\ApiTest.class
+com\lenovo\research\se\aiexchange\test\AiExchangeApplicationTest.class
+com\lenovo\research\se\aiexchange\test\core\AiServiceProxyTest.class
+com\lenovo\research\se\aiexchange\test\core\dao\AiFunctionDaoTest.class
+com\lenovo\research\se\aiexchange\test\AmationTest$UdpClientHandler.class
+com\lenovo\research\se\aiexchange\test\core\HttpProxyTest.class
