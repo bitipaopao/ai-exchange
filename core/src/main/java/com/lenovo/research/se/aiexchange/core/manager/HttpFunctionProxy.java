@@ -164,7 +164,6 @@ public class HttpFunctionProxy extends AbstractAiFunctionProxy {
         try {
             Response response = client.newCall(request).execute();
             String responseStr = response.body().string();
-            System.out.println("responseStr:" + responseStr);
             GKResponse restResponse = JsonSerializer.deserialize(responseStr, GKResponse.class);
             if (restResponse.getCode() == 0) {
                 String resultStr = AESUtil.decryptCBC(key, restResponse.getData());

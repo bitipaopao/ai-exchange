@@ -8,7 +8,7 @@ import java.util.Map;
 public class DefaultTokenWrapper implements SourceTokenWrapper{
 
     @Override
-    public Map<String, String> assembleRequestToken(Map<String, String> params) {
+    public Map<String, Object> assembleRequestToken(Map<String, Object> params) {
         return params;
     }
 }

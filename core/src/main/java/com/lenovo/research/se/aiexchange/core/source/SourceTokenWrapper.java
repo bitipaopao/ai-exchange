@@ -4,5 +4,5 @@ import java.util.Map;
 
 public interface SourceTokenWrapper {
     String suffix = "TokenWrapper";
-    Map<String,String> assembleRequestToken(Map<String,String> params);
+    Map<String,Object> assembleRequestToken(Map<String,Object> params);
 }

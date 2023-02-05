@@ -32,19 +32,18 @@ public class AssembleParameterWrapper implements AiFunctionProxy {
 
     @Override
     public AiResult doRequest(String arguments, HttpServletResponse response, AiRequestManger.RequestCallBack callback) {
-        Map<String, String> params = JsonSerializer.deserialize(
-                arguments, new TypeToken<Map<String, String>>() {
+        Map<String, Object> params = JsonSerializer.deserialize(
+                arguments, new TypeToken<Map<String, Object>>() {
                 });
         if (!StringUtils.isEmpty(aiFunction.getFunctionInfo())) {
             Map<String, String> preParam = JsonSerializer.deserialize(
                     aiFunction.getFunctionInfo(), new TypeToken<Map<String, String>>() {
                     });
             params.putAll(preParam);
+            SourceTokenWrapper tokenWrapper = (SourceTokenWrapper) SpringBootUtil.getBean(service.getVendor() + SourceTokenWrapper.suffix);
+            params = tokenWrapper.assembleRequestToken(params);
+            arguments = JsonSerializer.serialize(params);
         }
-
-        SourceTokenWrapper tokenWrapper = (SourceTokenWrapper) SpringBootUtil.getBean(service.getVendor() + SourceTokenWrapper.suffix);
-        params = tokenWrapper.assembleRequestToken(params);
-        arguments = JsonSerializer.serialize(params);
         return proxy.doRequest(arguments, response, callback);
     }
 

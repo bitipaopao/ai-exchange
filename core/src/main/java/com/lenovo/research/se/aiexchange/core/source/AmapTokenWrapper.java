@@ -13,21 +13,21 @@ public class AmapTokenWrapper implements SourceTokenWrapper{
     private final static String sk = "eeb32de6bc105f901e0826a9d6315a48";
 
     @Override
-    public Map<String, String> assembleRequestToken(Map<String, String> params) {
+    public Map<String, Object> assembleRequestToken(Map<String, Object> params) {
         params.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
         String token = getMD5Str(strToMD5(params), sk);
         params.put("token", token);
         return params;
     }
 
-    private static String strToMD5(Map<String, String> params) {
+    private static String strToMD5(Map<String, Object> params) {
         if (CollectionUtils.isEmpty(params)) {
             return "";
         }
         Optional<String> optionalS = params.keySet().stream()
                 .filter(key -> params.get(key) != null)
                 .sorted()
-                .map(params::get)
+                .map(key -> params.get(key).toString())
                 .reduce((a, b) -> a + ";" + b);
         return optionalS.orElse("");
     }
