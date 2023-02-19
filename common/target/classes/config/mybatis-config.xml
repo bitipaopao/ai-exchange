@@ -10,8 +10,8 @@
 	</settings>
 
 	<plugins>
-		<plugin interceptor="com.lenovo.research.se.aiexchange.common.spring.mybatis.shard.ShardInterceptor"/>
-		<plugin interceptor="com.lenovo.research.se.aiexchange.common.spring.mybatis.SlowSqlInterceptor"/>
+		<plugin interceptor="com.shinner.data.aiexchange.common.spring.mybatis.shard.ShardInterceptor"/>
+		<plugin interceptor="com.shinner.data.aiexchange.common.spring.mybatis.SlowSqlInterceptor"/>
 	</plugins>
 
 </configuration>

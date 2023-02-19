@@ -35,21 +35,21 @@ mw:
   mybatis:
     enable: true
     mapper-locations: classpath:mappers/**/*.xml
-    type-aliases-package: com.lenovo.smartclass.resourcecenter.model
+    type-aliases-package: com.shinner.data.aiexchange.core.entity
   swagger:
     enable: true
   temporary:
     enable: true
     path: C:/tmp/rorigin/
-#  auth:
-#    client:
-#      enable: true
-#      aksk:
-#        akParamName: access-key
-#        signParamName: sign
-#        slatParamName: slat
-#        timeStampName: timestamp
-#        expireTime: 600
+  auth:
+    client:
+      enable: true
+      aksk:
+        akParamName: access-key
+        signParamName: sign
+        slatParamName: slat
+        timeStampName: timestamp
+        expireTime: 600
 
 ai:
   http:

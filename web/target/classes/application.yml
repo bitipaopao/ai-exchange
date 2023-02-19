@@ -39,7 +39,7 @@ mw:
   mybatis:
     enable: true
     mapper-locations: classpath:mappers/**/*.xml
-    type-aliases-package: com.lenovo.smartclass.resourcecenter.model
+    type-aliases-package: com.shinner.data.aiexchange.core.entity
   temporary:
     enable: true
     path: home/tmp/

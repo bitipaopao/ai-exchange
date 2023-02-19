@@ -1,0 +1,76 @@
+package com.shinner.data.aiexchange.common.utils;
+
+import java.io.*;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
+
+public class Zlib {
+    /**
+     * 压缩
+     *
+     * @param data
+     *            待压缩数据
+     * @return byte[] 压缩后的数据
+     */
+    public static byte[] compress(byte[] data) {
+        byte[] output = new byte[0];
+        Deflater compresser = new Deflater();
+        compresser.reset();
+        compresser.setInput(data);
+        compresser.finish();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
+        try {
+            byte[] buf = new byte[8192];
+            while (!compresser.finished()) {
+                int i = compresser.deflate(buf);
+                bos.write(buf, 0, i);
+            }
+            output = bos.toByteArray();
+        } catch (Exception e) {
+            output = data;
+            e.printStackTrace();
+        } finally {
+            try {
+                bos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        compresser.end();
+        return output;
+    }
+
+
+    /**
+     * 解压缩
+     *
+     * @param data
+     *            待压缩的数据
+     * @return byte[] 解压缩后的数据
+     */
+    public static byte[] decompress(byte[] data) {
+        Inflater decompresser = new Inflater();
+        decompresser.setInput(data);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
+        try {
+            byte[] buf = new byte[8192];
+            while (!decompresser.finished()) {
+                int i = decompresser.inflate(buf);
+                bos.write(buf, 0, i);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        decompresser.end();
+
+        return bos.toByteArray();
+    }
+}

@@ -4,18 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>ai-exchange</artifactId>
-        <groupId>com.lenovo.research.se</groupId>
+        <groupId>com.shinner.data</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.lenovo.research.se.ai-exchange</groupId>
+    <groupId>com.shinner.data.ai-exchange</groupId>
     <artifactId>core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>com.lenovo.research.se.ai-exchange</groupId>
+            <groupId>com.shinner.data.ai-exchange</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

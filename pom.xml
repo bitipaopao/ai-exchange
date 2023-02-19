@@ -20,7 +20,7 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.lenovo.research.se</groupId>
+    <groupId>com.shinner.data</groupId>
     <artifactId>ai-exchange</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ai-exchange-parent</name>

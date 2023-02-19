@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>ai-exchange</artifactId>
-        <groupId>com.lenovo.research.se</groupId>
+        <groupId>com.shinner.data</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.lenovo.research.se.aiexchange</groupId>
+    <groupId>com.shinner.data.aiexchange</groupId>
     <artifactId>web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>web service for ai exchange</name>
@@ -86,12 +86,12 @@
         </dependency>
 
         <dependency>
-            <groupId>com.lenovo.research.se.ai-exchange</groupId>
+            <groupId>com.shinner.data.ai-exchange</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.lenovo.research.se.ai-exchange</groupId>
+            <groupId>com.shinner.data.ai-exchange</groupId>
             <artifactId>core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -112,7 +112,7 @@
             <version>1.2.83</version>
         </dependency>
         <dependency>
-            <groupId>com.lenovo.research.se.ai-exchange</groupId>
+            <groupId>com.shinner.data.ai-exchange</groupId>
             <artifactId>signature</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>

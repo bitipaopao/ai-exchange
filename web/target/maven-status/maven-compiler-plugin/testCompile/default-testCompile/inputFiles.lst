@@ -1,12 +1,13 @@
 D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\dao\AiFunctionDaoTest.java
 D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\AiExchangeApplicationTest.java
-D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\AdapterTest.java
 D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\ApiTest.java
+D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\common\Md5Test.java
+D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\dao\AiServiceDaoTest.java
+D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\AdapterTest.java
+D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\AmapApiTests.java
 D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\JKHttpProxyTest.java
 D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\dao\ClientDaoTest.java
 D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\AmationTest.java
-D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\common\Md5Test.java
 D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\AiServiceProxyTest.java
 D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\dao\AiRequestDaoTest.java
-D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\dao\AiServiceDaoTest.java
 D:\code\myProject\ai-exchange\web\src\test\java\com\lenovo\research\se\aiexchange\test\core\HttpProxyTest.java
