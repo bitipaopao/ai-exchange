@@ -23,7 +23,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class HttpFunctionProxy extends AbstractAiFunctionProxy {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private String key = "121006e472cf485dd0ad62c09f8a16dc";
 
     private final String host;
     private final ExecutorService executorService;
@@ -43,18 +42,20 @@ public class HttpFunctionProxy extends AbstractAiFunctionProxy {
                 blockingDeque,
                 new NameThreadFactory("AiRequest-pool",
                         (t, e) -> logger.error(t.getName() + "runtime error, ", e.getMessage())),
-                (r, e) -> {throw new TooFrequentException("AiFunction:" + function.getAiKey() + ":" + function.getFunctionId() + "'s Request exceeds capacity");}
+                (r, e) -> {
+                    throw new TooFrequentException("AiFunction:" + function.getAiKey() + ":" + function.getFunctionId() + "'s Request exceeds capacity");
+                }
         );
         resetLimiter(aiFunction.getFlowRate(), aiFunction.getFlowIntervalSecond());
-        counter = new ConcurrentCounter(new ReentrantLock(), 5*60*1000L);
+        counter = new ConcurrentCounter(new ReentrantLock(), 5 * 60 * 1000L);
     }
 
     public void resetLimiter(int flowRate, int intervalSecond) {
-        synchronized(this) {
+        synchronized (this) {
             ConcurrentLimiter newLimiter = new ConcurrentLimiter(
                     new ReentrantLock(),
                     flowRate,
-                    intervalSecond*1000L
+                    intervalSecond * 1000L
             );
             this.limiter = newLimiter;
         }
@@ -71,7 +72,7 @@ public class HttpFunctionProxy extends AbstractAiFunctionProxy {
     }
 
     @Override
-    public AiResult doRequest(String arguments, HttpServletResponse response, AiRequestManger.RequestCallBack callback) {
+    public AiResult doRequest(String arguments, ResponseAssamble responseAssamble, HttpServletResponse response, AiRequestManger.RequestCallBack callback) {
 
         if (!limiter.countOne()) {
             throw new TooFrequentException();
@@ -88,7 +89,7 @@ public class HttpFunctionProxy extends AbstractAiFunctionProxy {
         Future<AiResult> future = executorService.submit(
                 () -> {
                     AiResult result;
-                    RestResponse restResponse = doHttpRequest(url, arguments);
+                    RestResponse restResponse = doHttpRequest(url, arguments, responseAssamble);
                     logger.info(restResponse.toString());
                     if (restResponse.success()) {
                         result = new AiResult().setStatusCode(AiRequestStatus.Done.getCode())
@@ -135,21 +136,18 @@ public class HttpFunctionProxy extends AbstractAiFunctionProxy {
         }
     }
 
-    private RestResponse doHttpRequest(String url, String arguments) {
+    private RestResponse doHttpRequest(String url, String arguments, ResponseAssamble responseAssamble) {
         String httpMethod = getAiFunction().getFunctionMethod();
         if (httpMethod.equals("POST")) {
-            return doPostHttpRequest(url, arguments);
+            return doPostHttpRequest(url, arguments, responseAssamble);
         } else if (httpMethod.equals("GET")) {
-            return doGetHttpRequest(url, arguments);
+            return doGetHttpRequest(url, arguments, responseAssamble);
         }
 
         throw new UnsupportedOperationException("Unsupport http method:" + httpMethod);
     }
 
-    public RestResponse doPostHttpRequest(String url, String arguments) {
-        byte[] dataEncode = Zlib.compress(arguments.getBytes());
-        String requestBody = AESUtil.encryptCBC(key, dataEncode);
-
+    public RestResponse doPostHttpRequest(String url, String requestBody, ResponseAssamble responseAssamble) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
@@ -162,24 +160,18 @@ public class HttpFunctionProxy extends AbstractAiFunctionProxy {
         try {
             Response response = client.newCall(request).execute();
             String responseStr = response.body().string();
-            GKResponse restResponse = JsonSerializer.deserialize(responseStr, GKResponse.class);
-            if (restResponse.getCode() == 0) {
-                String resultStr = AESUtil.decryptCBC(key, restResponse.getData());
-                return RestResponse.successWith(resultStr);
-            }
-            return new RestResponse().setCode(restResponse.getCode())
-                    .setData(restResponse.getData())
-                    .setMsg(restResponse.getMessage());
+            return responseAssamble.assembleResponse(responseStr);
         } catch (IOException e) {
             logger.error("Ai request error with url:" + JsonSerializer.serialize(url), e);
             return new RestResponse().setMsg("Ai request error" + e.getMessage()).setCode(ErrorCode.INTERNAL_ERROR.getCode());
         }
     }
 
-    private RestResponse doGetHttpRequest(String url, String arguments) {
+    private RestResponse doGetHttpRequest(String url, String arguments, ResponseAssamble responseAssamble) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
-        Map<String, String> params = JsonSerializer.deserialize(arguments,  new TypeToken<Map<String, String>>() {});
+        Map<String, String> params = JsonSerializer.deserialize(arguments, new TypeToken<Map<String, String>>() {
+        });
         String paramStr = SignUtil.mapToStr(params);
         Request request = new Request.Builder()
                 .get()
@@ -189,51 +181,11 @@ public class HttpFunctionProxy extends AbstractAiFunctionProxy {
         try {
             Response response = client.newCall(request).execute();
             String bodyStr = response.body().string();
-            JSONObject jsonResult = JSONObject.parseObject(bodyStr);
-            int errorCode = (int) jsonResult.get("errcode");
-            if (errorCode == 0) {
-                RestResponse restResponse = JsonSerializer.deserialize(bodyStr, RestResponse.class);
-                return restResponse.setCode(ErrorCode.Success.getCode());
-            } else {
-                return new RestResponse().setMsg((String) jsonResult.get("errmsg")).setCode(ErrorCode.INTERNAL_ERROR.getCode());
-            }
+            return responseAssamble.assembleResponse(bodyStr);
         } catch (IOException e) {
             logger.error("Ai request error with url:" + JsonSerializer.serialize(url), e);
             return new RestResponse().setMsg("Ai request error" + e.getMessage()).setCode(ErrorCode.INTERNAL_ERROR.getCode());
         }
     }
 
-
-    public class GKResponse {
-        private Integer code;
-        private String message;
-        private String data;
-
-        public Integer getCode() {
-            return code;
-        }
-
-        public GKResponse setCode(Integer code) {
-            this.code = code;
-            return this;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public GKResponse setMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
-        public String getData() {
-            return data;
-        }
-
-        public GKResponse setData(String data) {
-            this.data = data;
-            return this;
-        }
-    }
 }

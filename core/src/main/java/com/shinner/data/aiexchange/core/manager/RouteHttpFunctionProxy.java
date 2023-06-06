@@ -29,9 +29,9 @@ public class RouteHttpFunctionProxy implements AiFunctionProxy{
     }
 
     @Override
-    public AiResult doRequest(String arguments, HttpServletResponse response, AiRequestManger.RequestCallBack callback) {
+    public AiResult doRequest(String arguments, ResponseAssamble responseAssamble, HttpServletResponse response, AiRequestManger.RequestCallBack callback) {
         AiFunctionProxy aiFunctionProxy = route();
-        return aiFunctionProxy.doRequest(arguments, response, callback);
+        return aiFunctionProxy.doRequest(arguments, responseAssamble, response, callback);
     }
 
     @Override

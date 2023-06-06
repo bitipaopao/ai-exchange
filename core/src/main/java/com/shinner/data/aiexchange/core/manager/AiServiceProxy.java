@@ -87,7 +87,7 @@ public class AiServiceProxy extends OneTimeExecutionApplicationEventListener {
             AiFunctionProxy functionProxy = functionMap.get(aiRequest.getAiKey()).get(aiRequest.getFunctionId());
             if (Objects.nonNull(functionProxy)) {
                 String arguments = aiRequest.getArguments().toString();
-                return functionProxy.doRequest(arguments, response, callback);
+                return functionProxy.doRequest(arguments, null, response, callback);
             }
         }
 

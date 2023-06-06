@@ -1,40 +1,42 @@
 package com.shinner.data.aiexchange.core.source;
 
+import com.shinner.data.aiexchange.common.utils.AESUtil;
 import com.shinner.data.aiexchange.common.utils.JsonSerializer;
+import com.shinner.data.aiexchange.common.utils.Zlib;
 import com.shinner.data.aiexchange.model.RestResponse;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+@Component("jikeTokenWrapper")
+public class JikeTokenWrapper implements SourceTokenWrapper{
 
-@Component("defaultTokenWrapper")
-public class DefaultTokenWrapper implements SourceTokenWrapper{
-
+    private String key = "121006e472cf485dd0ad62c09f8a16dc";
     @Override
-    public Map<String, Object> assembleRequestToken(Map<String, Object> params) {
-        return params;
+    public String assembleRequestBody(String body) {
+        byte[] dataEncode = Zlib.compress(body.getBytes());
+        return AESUtil.encryptCBC(key, dataEncode);
     }
 
-    @Override
     public RestResponse assembleResult(String responseStr) {
-        DefaultResponse restResponse = JsonSerializer.deserialize(responseStr, DefaultResponse.class);
+        GKResponse restResponse = JsonSerializer.deserialize(responseStr, GKResponse.class);
         if (restResponse.getCode() == 0) {
-            return RestResponse.successWith(JsonSerializer.serialize(restResponse.getData()));
+            String resultStr = AESUtil.decryptCBC(key, restResponse.getData());
+            return RestResponse.successWith(resultStr);
         }
         return new RestResponse().setCode(restResponse.getCode())
                 .setData(restResponse.getData())
                 .setMsg(restResponse.getMessage());
     }
 
-    public class DefaultResponse {
+    public class GKResponse {
         private Integer code;
         private String message;
-        private Object data;
+        private String data;
 
         public Integer getCode() {
             return code;
         }
 
-        public DefaultResponse setCode(Integer code) {
+        public GKResponse setCode(Integer code) {
             this.code = code;
             return this;
         }
@@ -43,16 +45,16 @@ public class DefaultTokenWrapper implements SourceTokenWrapper{
             return message;
         }
 
-        public DefaultResponse setMessage(String message) {
+        public GKResponse setMessage(String message) {
             this.message = message;
             return this;
         }
 
-        public Object getData() {
+        public String getData() {
             return data;
         }
 
-        public DefaultResponse setData(Object data) {
+        public GKResponse setData(String data) {
             this.data = data;
             return this;
         }

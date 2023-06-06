@@ -1,6 +1,10 @@
 package com.shinner.data.aiexchange.core.source;
 
+import com.alibaba.fastjson.JSONObject;
+import com.shinner.data.aiexchange.common.utils.JsonSerializer;
 import com.shinner.data.aiexchange.common.utils.MD5Util;
+import com.shinner.data.aiexchange.model.RestResponse;
+import com.shinner.data.aiexchange.model.enums.ErrorCode;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -18,6 +22,18 @@ public class AmapTokenWrapper implements SourceTokenWrapper{
         String token = getMD5Str(strToMD5(params), sk);
         params.put("token", token);
         return params;
+    }
+
+    @Override
+    public RestResponse assembleResult(String responseStr) {
+        JSONObject jsonResult = JSONObject.parseObject(responseStr);
+        int errorCode = (int) jsonResult.get("errcode");
+        if (errorCode == 0) {
+            RestResponse restResponse = JsonSerializer.deserialize(responseStr, RestResponse.class);
+            return restResponse.setCode(ErrorCode.Success.getCode());
+        } else {
+            return new RestResponse().setMsg((String) jsonResult.get("errmsg")).setCode(ErrorCode.INTERNAL_ERROR.getCode());
+        }
     }
 
     private static String strToMD5(Map<String, Object> params) {
