@@ -45,7 +45,7 @@ public class AssembleParameterWrapper implements AiFunctionProxy {
             arguments = JsonSerializer.serialize(params);
         }
         arguments = tokenWrapper.assembleRequestBody(arguments);
-        return proxy.doRequest(arguments, (str) -> tokenWrapper.assembleResult(str), response, callback);
+        return proxy.doRequest(arguments, tokenWrapper::assembleResult, response, callback);
     }
 
     @Override
