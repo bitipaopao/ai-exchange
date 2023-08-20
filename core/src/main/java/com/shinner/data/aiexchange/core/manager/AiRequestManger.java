@@ -78,7 +78,7 @@ public class AiRequestManger {
                 .setArgumentMd5(aiRequest.getArgumentMd5())
                 .setArgument(JsonSerializer.serialize(aiRequest.getArguments()))
                 .setFunctionId(aiRequest.getFunctionId())
-                .setResponse(aiRequest.getResponse())
+//                .setResponse(aiRequest.getResponse())
                 .setRequestStatus(AiRequestStatus.Undo.getCode());
         aiRequestDao.insert(aiRequestDO);
         return uuid;
@@ -87,7 +87,7 @@ public class AiRequestManger {
     private void doneRequest(AiResult aiResult) {
         AiRequestDO aiRequestDO = new AiRequestDO()
                 .setUuid(aiResult.getUuid())
-                .setResponse(aiResult.getResult())
+//                .setResponse(aiResult.getResult())
                 .setDoneTime(new Date())
                 .setRequestStatus(aiResult.getStatusCode());
         aiRequestDao.updateLimitByStatus(aiRequestDO);
@@ -100,7 +100,7 @@ public class AiRequestManger {
         }
         AiRequestDO aiRequestDO = new AiRequestDO()
                 .setUuid(aiResult.getUuid())
-                .setResponse(aiResult.getResult())
+//                .setResponse(aiResult.getResult())
                 .setRequestStatus(aiResult.getStatusCode());
         aiRequestDao.updateLimitByStatus(aiRequestDO);
     }

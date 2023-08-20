@@ -15,7 +15,8 @@ public class JKHttpProxyTest {
 
     @Test
     public void postTest() {
-        String dataStr = "{\"projectId\": 2022052001, \"type\": 3, \"data\": {\"startTime\": 1664526444, \"endTime\": 1667118444}}";
+//        String dataStr = "{\"projectId\":\"2022101801\",\"type\":3,\"data\":{\"startTime\":\"1684721325\",\"endTime\":\"1686124566\"}}";
+        String dataStr = "{\"projectId\":100,\"type\":2,\"id\":\"101010232\",\"data\":{\"startTime\":1656832200,\"endTime\":1658293900}}";
         byte[] dataEncode = Zlib.compress(dataStr.getBytes());
         String requestBody = AESUtil.encryptCBC(key, dataEncode);
 
